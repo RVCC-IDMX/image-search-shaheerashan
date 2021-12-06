@@ -14,6 +14,30 @@ form.addEventListener('submit', async (event) => {
     .then((res) => res.json())
     .catch((err) => console.error(err));
 
+  const container = document.querySelector('.container');
+  const template = document.getElementById('template');
+
+  response.results.forEach((element) => {
+    let clone = template.content.cloneNode(true);
+
+    const postImg = clone.querySelector('.post__img');
+    postImg.src = element.urls.small;
+    postImg.alt = element.alt_description;
+
+    const postUser = clone.querySelector('.post__user');
+    postUser.innerText = element.user.name;
+
+    const postdesc = clone.querySelector('.post__desc');
+    let desc = element.description;
+    if (desc !== null) {
+      if (desc.length > 100) {
+        desc = desc.substring(0, 97) + '...';
+      }
+      postdesc.innerText = desc;
+    }
+
+    container.appendChild(clone);
+  });
   /*
   some sample code
     const dataObj = response.results[0];
